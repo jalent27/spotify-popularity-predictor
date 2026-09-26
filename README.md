@@ -10,7 +10,11 @@ The dataset that I used was a Spotify Tracks dataset on Kaggle that contained 11
 
 ## Regression Findings
 
+![R² comparison across regression models](model_comparison.png)
+
 For the first model I worked with (Linear Regression), I was able to get a mean absolute error of 12.07 in popularity score, a root mean squared error value of 16.91 and a coefficient of determination of .325. The next model I constructed was the Random Forest Regressor which gave me statistical values of MAE: 10.12, RMSE: 15, and R^2: .469. The third model I worked with was an XGBoost model to see if I could get even more accuracy in predicting popularity score among songs. The model had a MAE of 11.07, an RMSE of 15.68, and an r^2 of .411. Surprisingly, the XGBoost model actually underperformed despite being the "fancier" model, and the audio features individually had pretty similar values of importance, clustered roughly between 0.043 and 0.064 each. However, genre's one-hot columns summed together had the highest importance value of .396 which outweighed any single audio feature by 6 times.
+
+![Random Forest feature importance, with all genre columns combined into one bar](feature_importance.png)
 
 ## Classification Findings
 
@@ -24,6 +28,8 @@ One main surprise that I came across this project was how XGBoost underperformed
 
 Another surprise that caught my eye was how K-pop had the highest average genre popularity (59) while genres like hip-hop/rap, which are more globally listened to, didn't rank as high. This stood out because I expected raw popularity scores to track more closely with what's most widely consumed worldwide. It's a reminder that this dataset's "popularity" score reflects something more specific than overall global listenership; it's likely shaped by factors like the size and engagement of a fanbase on the platform, streaming and release patterns, or how Spotify's own popularity metric is calculated, rather than a fanbase's raw size. It made me realize that the audio features themselves are only one piece of a much larger picture that includes cultural and platform-specific dynamics.
 
+![Top 10 and bottom 10 genres by average popularity](genre_popularity.png)
+
 ## Limitations
 
 Some limitations I wanted to cover was that XGBoost wasn't hyperparameter-tuned, which is a large factor in accuracy output, so the exact ranking could relatively change compared to Random Forest's accuracy statistics. Another limitation was that the popularity threshold I chose (70) was reasonable but a somewhat random choice rather than a tested and statistically effective threshold. The dataset is also a few years old so it may not reflect current listening trends or newer artists. There are a lot of variables that constantly change how people view music and what people enjoy. Also, one-hot encoding genre means individual genre columns get diluted importance scores even though genre matters a lot in aggregate. It can make feature importance rankings somewhat easier to misread if only viewing the individual list.
@@ -33,3 +39,23 @@ Some things I would want to explore further are fine-tuning the XGBoost model to
 ## Summary
 
 Overall, this project did not find any clear patterns in the data that showed specific audio features had a strong correlation to a song's popularity. There are so many genres, types of music, styles, and ways of creating art that people interpret in different ways, and I believe this diversity in taste is part of why it can be hard to predict popularity through an algorithm based on audio features alone. That said, this isn't a proven conclusion — it's the pattern I observed across the models and features I tested here, and a different approach, more data, or additional context could still reveal relationships that weren't captured in this project.
+
+## Dataset
+
+[Spotify Tracks Dataset](https://www.kaggle.com/datasets/maharshipandya/-spotify-tracks-dataset) (Kaggle, by maharshipandya) — ~114,000 tracks with audio feature data, cleaned down to 89,583 unique tracks for this project.
+
+## Notebooks
+
+1. `01_data_cleaning.ipynb` — initial data loading and cleaning
+2. `02_eda.ipynb` — exploratory data analysis and visualizations
+3. `03_linear_regression.ipynb` — feature engineering + Linear Regression baseline
+4. `04_random_forest.ipynb` — Random Forest Regressor
+5. `05_xgboost.ipynb` — XGBoost Regressor
+6. `06_classification.ipynb` — Logistic Regression + Random Forest Classifier
+
+## Setup
+
+1. Clone this repo
+2. Install dependencies: `pip3 install pandas numpy matplotlib seaborn scikit-learn xgboost jupyter`
+3. Download the dataset from the Kaggle link above and place it in the project folder
+4. Open notebooks in order with Jupyter or VS Code
